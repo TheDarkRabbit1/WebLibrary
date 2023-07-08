@@ -1,0 +1,74 @@
+package com.example.weblibrary.data.book;
+
+import com.example.weblibrary.data.book.bookcategory.BookCategory;
+import com.example.weblibrary.data.book.bookcategory.BookCategoryDao;
+import com.example.weblibrary.exceptions.EntityNotFoundException;
+import com.example.weblibrary.exceptions.InsertionException;
+
+import java.util.List;
+
+public class BookService {
+    private final BookDao bookDao;
+    private final BookCategoryDao bookCategoryDao;
+
+    public BookService(BookDao bookDao, BookCategoryDao bookCategoryDao) {
+        this.bookDao = bookDao;
+        this.bookCategoryDao = bookCategoryDao;
+    }
+    public Book getBookById(Long id){
+        return bookDao.findBookById(id)
+                .orElseThrow(()->new EntityNotFoundException(String.format("book of %s id wasn't found",id)));
+    }
+    public List<Book> getAllBooks (){
+        return bookDao.findBooks();
+    }
+    public Long insertBook(Book book){
+        bookCategoryDao.findBookCategoryByName(book.getName()).ifPresent(b->{
+            throw new InsertionException("Book with this name already exist");
+        });
+        Long id = bookDao.insertBook(book);
+        if (id<=0)
+            throw new InsertionException("failed to insert book");
+        return id;
+    }
+    public void deleteBookById(Long id){
+        bookDao.findBookById(id).ifPresent(b -> {
+                    throw new InsertionException(String.format("no book of %s id was found",id));
+                });
+        bookDao.deleteBookById(id);
+    }
+    public void deleteBooks(){
+        bookDao.deleteAllBooks();
+    }
+
+
+    public BookCategory getBookCategoryById(Long id){
+        return bookCategoryDao.findBookCategoryById(id)
+                .orElseThrow(()->new EntityNotFoundException(String.format("book category of %s id wasn't found",id)));
+    }
+
+    public List<BookCategory> getAllBooksCategories (){
+        return bookCategoryDao.findBookCategories();
+    }
+    public Long insertBookCategory(BookCategory bookCategory) {
+        bookCategoryDao.findBookCategoryByName(bookCategory.getName())
+                .ifPresent(bc -> {
+                    throw new InsertionException("Category with this name already exists");
+                });
+        Long id = bookCategoryDao.insertBook(bookCategory);
+        if (id <= 0)
+            throw new InsertionException("failed to insert book category");
+        return id;
+    }
+
+    public void deleteBookCategoryById(Long id){
+        bookCategoryDao.findBookCategoryById(id)
+                .ifPresent(bc -> {
+                    throw new InsertionException(String.format("no book category of %s id was found",id));
+                });
+        bookCategoryDao.deleteBookById(id);
+    }
+    public void deleteBookCategories(){
+        bookCategoryDao.deleteAllBooks();
+    }
+}

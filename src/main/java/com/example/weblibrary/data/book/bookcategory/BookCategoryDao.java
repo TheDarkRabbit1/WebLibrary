@@ -6,6 +6,8 @@ import java.util.Optional;
 public interface BookCategoryDao {
     List<BookCategory> findBookCategories();
     Optional<BookCategory> findBookCategoryById(Long id);
+    Optional<BookCategory> findBookCategoryByName(String name);
+
     Long insertBook(BookCategory bookCategory);
     void deleteBookById(Long id);
     void deleteAllBooks();

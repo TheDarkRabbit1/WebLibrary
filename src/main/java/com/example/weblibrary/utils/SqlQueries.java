@@ -11,6 +11,7 @@ public class SqlQueries {
 
 
     public final static String getBookCategoryById="select * from book_category where id=?";
+    public final static String getBookCategoryByName="select * from book_category where name=?";
     public final static String getBookCategories="select * from book_category";
     public final static String insertBookCategory="insert into book_category (name) Values(?)";
     public final static String deleteBookCategoryById="delete from book_category where book_category.id=?";

@@ -27,6 +27,11 @@ public class BookCategoryDaoImpl implements BookCategoryDao{
     }
 
     @Override
+    public Optional<BookCategory> findBookCategoryByName(String name) {
+        return Optional.of((BookCategory) jdbcTemplate.query(SqlQueries.getBookCategoryByName, new BookCategoryRowMapper(),name));
+    }
+
+    @Override
     public Long insertBook(BookCategory bookCategory) {
         return (long) jdbcTemplate.update(SqlQueries.insertBookCategory,
                 bookCategory.getName());
