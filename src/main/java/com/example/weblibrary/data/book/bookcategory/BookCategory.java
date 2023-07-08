@@ -1,4 +1,4 @@
-package com.example.weblibrary.data;
+package com.example.weblibrary.data.book.bookcategory;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

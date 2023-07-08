@@ -1,6 +1,6 @@
 package com.example.weblibrary.data.book;
 
-import com.example.weblibrary.data.BookCategory;
+import com.example.weblibrary.data.book.bookcategory.BookCategory;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
@@ -16,8 +16,8 @@ public class BookRowMapper implements RowMapper<Book> {
         book.setDescription(rs.getString("description"));
 
         BookCategory bookCategory = new BookCategory();
-        bookCategory.setId(rs.getLong("bookCategory_id"));
-        bookCategory.setName(rs.getString("bookCategory_name"));
+        bookCategory.setId(rs.getLong("book_category.id"));
+        bookCategory.setName(rs.getString("book_category.name"));
         return book;
     }
 }
