@@ -23,7 +23,7 @@ public class BookService {
         return bookDao.findBooks();
     }
     public Long insertBook(Book book){
-        bookCategoryDao.findBookCategoryByName(book.getName()).ifPresent(b->{
+        bookDao.findBookByNameAndAuthor(book.getName(),book.getAuthor()).ifPresent(b->{
             throw new InsertionException("Book with this name already exist");
         });
         Long id = bookDao.insertBook(book);

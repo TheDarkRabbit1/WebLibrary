@@ -27,6 +27,11 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
+    public Optional<Book> findBookByNameAndAuthor(String name, String author) {
+        return jdbcTemplate.query(SqlQueries.getBookByNameAndAuthor,new BookRowMapper(),name,author).stream().findFirst();
+    }
+
+    @Override
     public Long insertBook(Book book) {
         return (long) jdbcTemplate.update(SqlQueries.insertBook,
                 book.getName(),
