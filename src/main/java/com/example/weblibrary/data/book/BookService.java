@@ -31,12 +31,15 @@ public class BookService {
             throw new InsertionException("failed to insert book");
         return id;
     }
-    public void deleteBookById(Long id){
-        bookDao.findBookById(id).ifPresent(b -> {
-                    throw new InsertionException(String.format("no book of %s id was found",id));
-                });
-        bookDao.deleteBookById(id);
+    public void deleteBookById(Long id) {
+        bookDao.findBookById(id)
+                .ifPresentOrElse(
+                        b -> bookDao.deleteBookById(id),
+                        () -> {
+                            throw new InsertionException(String.format("no book of %s id was found", id));
+                        });
     }
+
     public void deleteBooks(){
         bookDao.deleteAllBooks();
     }
@@ -61,13 +64,15 @@ public class BookService {
         return id;
     }
 
-    public void deleteBookCategoryById(Long id){
+    public void deleteBookCategoryById(Long id) {
         bookCategoryDao.findBookCategoryById(id)
-                .ifPresent(bc -> {
-                    throw new InsertionException(String.format("no book category of %s id was found",id));
-                });
-        bookCategoryDao.deleteBookById(id);
+                .ifPresentOrElse(
+                        bc -> bookCategoryDao.deleteBookById(id),
+                        () -> {
+                            throw new InsertionException(String.format("no book category of %s id was found", id));
+                        });
     }
+
     public void deleteBookCategories(){
         bookCategoryDao.deleteAllBooks();
     }
