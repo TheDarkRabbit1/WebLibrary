@@ -12,7 +12,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 public class DataSourceConfig {
     @Bean
     @Primary
-    @ConfigurationProperties("app.datasource.main")
+    @ConfigurationProperties(prefix = "app.datasource.main")
     public HikariDataSource hikariDataSource(){
         return DataSourceBuilder
                 .create()
