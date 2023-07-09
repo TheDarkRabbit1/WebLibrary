@@ -4,17 +4,16 @@ import com.example.weblibrary.data.book.bookcategory.BookCategory;
 import com.example.weblibrary.data.book.bookcategory.BookCategoryDao;
 import com.example.weblibrary.exceptions.EntityNotFoundException;
 import com.example.weblibrary.exceptions.InsertionException;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
+@AllArgsConstructor
 public class BookService {
     private final BookDao bookDao;
     private final BookCategoryDao bookCategoryDao;
 
-    public BookService(BookDao bookDao, BookCategoryDao bookCategoryDao) {
-        this.bookDao = bookDao;
-        this.bookCategoryDao = bookCategoryDao;
-    }
     public Book getBookById(Long id){
         return bookDao.findBookById(id)
                 .orElseThrow(()->new EntityNotFoundException(String.format("book of %s id wasn't found",id)));
