@@ -128,7 +128,7 @@ public class BookServiceTests {
         expectedCategories.add(new BookCategory());
         expectedCategories.add(new BookCategory());
         when(bookCategoryDao.findBookCategories()).thenReturn(expectedCategories);
-        List<BookCategory> actualCategories = bookService.getAllBooksCategories();
+        List<BookCategory> actualCategories = bookService.getAllBookCategories();
         assertEquals(expectedCategories, actualCategories);
     }
 
