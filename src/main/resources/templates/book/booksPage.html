@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Library</title>
+    <link rel="stylesheet" th:href="@{/styles/books.css}" />
+</head>
+<body>
+<div class="top-section">
+    <div class="left-section">
+        <div class="input-container">
+            <input type="text" id="book-title-input">
+            <label for="book-title-input">Book Title:</label>
+        </div>
+        <div class="input-container">
+            <input type="text" id="author-name-input">
+            <label for="author-name-input">Author Name:</label>
+        </div>
+        <div class="select-container">
+            <label for="category-options"></label>
+            <select id="category-options">
+                <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+            </select>
+        </div>
+        <button>Search</button>
+    </div>
+    <div class="right-section" th:if="${librarian}">
+        <button>Manage</button>
+    </div>
+</div>
+
+<div class="bottom-section">
+    <div class="grid-container">
+        <div th:each="book : ${books}">
+            <div class="card">
+                <div class="container">
+                    <img src="/images/placeholder-book.png" alt="Image" class="center">
+                    <h4><b th:text="${book.name}">Book Name</b></h4>
+                    <p th:text="${book.author}">Author</p>
+                    <p th:text="${book.description}">Description</p>
+                    <p th:text="${book.bookCategory.getName()}">Category</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
