@@ -49,7 +49,7 @@ public class BookService {
                 .orElseThrow(()->new EntityNotFoundException(String.format("book category of %s id wasn't found",id)));
     }
 
-    public List<BookCategory> getAllBooksCategories (){
+    public List<BookCategory> getAllBookCategories(){
         return bookCategoryDao.findBookCategories();
     }
     public Long insertBookCategory(BookCategory bookCategory) {
@@ -74,5 +74,9 @@ public class BookService {
 
     public void deleteBookCategories(){
         bookCategoryDao.deleteAllBooks();
+    }
+
+    public void updateBook(Book book) {
+        bookDao.updateBook(book);
     }
 }
