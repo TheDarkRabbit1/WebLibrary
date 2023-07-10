@@ -1,0 +1,187 @@
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    width: 80%;
+    max-width: 800px;
+    flex-direction: column;
+    align-items: center;
+    padding: 16px;
+    margin: 0 auto;
+}
+
+textarea {
+    max-width: 100%;
+    max-height: 200px;
+    border: 1px solid #808080; /* Add this line to give the description field a full border */
+    border-radius: 0;
+    transition: border-color 0.4s ease-in-out;
+}
+
+.strip {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 20px;
+    background-color: gray;
+}
+
+.input-container,
+.select-container {
+    position: relative;
+}
+
+.fade-top {
+    /* transition: transform 0.3s; Remove this line */
+}
+
+.input-container label,
+.select-container label {
+    display: block;
+    position: absolute;
+    left: 10px;
+    top: -20px; /* Adjust this value to position the labels properly */
+    font-size: 12px; /* Add this line to set a font size for the labels */
+    transition: all 0.2s ease-in-out;
+}
+
+.input-container input:focus + label,
+.select-container select:focus + label,
+.input-container input.has-value + label,
+.select-container select.has-value + label {
+    top: 0;
+    color: #808080;
+}
+
+.input-container input[type="text"],
+.select-container select,
+textarea {
+    display: block;
+    width: 400px;
+    height: 40px;
+    margin-bottom: 10px;
+    border: none;
+    border-bottom: 1px solid #808080;
+    border-radius: 0;
+    transition: border-bottom 0.4s ease-in-out;
+    background-color: transparent;
+}
+
+.input-container input[type="text"]:focus,
+.select-container select:focus,
+textarea:focus {
+    outline: none;
+    border-bottom-color: #808080;
+}
+
+.input-container input[type="text"]::-webkit-input-placeholder,
+.select-container select::-webkit-input-placeholder,
+textarea::-webkit-input-placeholder {
+    font-size: 12px;
+    color: #808080;
+}
+
+.input-container input[type="text"]::-moz-placeholder,
+.select-container select::-moz-placeholder,
+textarea::-moz-placeholder {
+    font-size: 12px;
+    color: #808080;
+}
+
+.input-container input[type="text"]:-ms-input-placeholder,
+.select-container select:-ms-input-placeholder,
+textarea:-ms-input-placeholder {
+    font-size: 12px;
+    color: #808080;
+}
+
+.input-container input[type="text"]::placeholder,
+.select-container select::placeholder,
+textarea::placeholder {
+    font-size: 12px;
+    color: #808080;
+}
+
+.input-container input[type="text"]:focus::placeholder,
+.select-container select:focus::placeholder,
+textarea:focus::placeholder {
+    color: transparent;
+}
+
+.input-container input[type="text"]:focus,
+.select-container select:focus {
+    border-bottom-color: #333;
+}
+
+.input-container input.has-value + label,
+.select-container select.has-value + label {
+    top: 0;
+    color: #808080;
+}
+
+.select-container label {
+    display: block;
+    position: relative;
+    left: 10px;
+    top: 0;
+    transform: translateY(-10px);
+    transition: all 0.2s ease-in-out;
+}
+
+.select-container select {
+    width: 400px;
+    height: 40px;
+    margin-bottom: 10px;
+    border: none;
+    border-bottom: 1px solid #808080;
+    border-radius: 0;
+    transition: border-bottom 0.4s ease-in-out;
+    background-color: transparent;
+}
+
+.select-container select:focus {
+    outline: none;
+    border-bottom-color: #808080;
+}
+
+.select-container select::-ms-expand {
+    display: none;
+}
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.submit-button {
+    margin-left: 10px;
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+}
+
+.submit-button:hover {
+    background-color: #222;
+}
+
+button {
+    background-color: #ccc;
+    color: black;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+}
+
+button:hover {
+    background-color: #bbb;
+}

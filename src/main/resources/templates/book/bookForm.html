@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book Form</title>
+    <link rel="stylesheet" th:href="@{/styles/book-form.css}"/>
+</head>
+<body>
+<div class="container">
+    <form th:action="@{/books/add}" th:object="${book}" method="post">
+        <div class="input-container">
+            <label for="book-name" class="fade-top">Book Name</label>
+            <input type="text" class="form-control" id="book-name" name="name"
+                   th:field="${book.name}" th:classappend="${#fields.hasErrors('name')}? 'is-invalid'">
+
+            <label for="book-author" class="fade-top">Book Author</label>
+            <input type="text" class="form-control" id="book-author" name="author"
+                   th:field="${book.author}" th:classappend="${#fields.hasErrors('author')}? 'is-invalid'">
+
+            <label for="book-description">Book Description</label>
+            <textarea class="form-control" id="book-description" name="description"
+                      th:field="${book.description}" th:classappend="${#fields.hasErrors('description')}? 'is-invalid'"></textarea>
+        </div>
+
+        <div class="select-container">
+            <label for="category-options">Category</label>
+            <select id="category-options">
+                <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+            </select>
+        </div>
+
+
+        <div class="button-container">
+            <button type="button">Back</button>
+            <button type="submit" class="submit-button">Submit</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>
