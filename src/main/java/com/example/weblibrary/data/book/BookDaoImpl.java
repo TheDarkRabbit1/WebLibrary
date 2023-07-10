@@ -42,6 +42,15 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
+    public void updateBook(Book book) {
+        jdbcTemplate.update(SqlQueries.updateBookInfo,
+                book.getName(),
+                book.getAuthor(),
+                book.getDescription(),
+                book.getId());
+    }
+
+    @Override
     public void deleteBookById(Long id) {
         jdbcTemplate.update(SqlQueries.deleteBookById,id);
     }

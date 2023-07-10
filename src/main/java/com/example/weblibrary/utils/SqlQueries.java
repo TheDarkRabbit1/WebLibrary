@@ -9,7 +9,7 @@ public class SqlQueries {
     public final static String getBookByNameAndAuthor = "SELECT book.*, book_category.name as book_category_name, book_category.id as book_category_id from book JOIN book_category on book_category.id = book.bookcategory_id WHERE book.name=? and book.author=?";
     public final static String deleteBookById = "DELETE FROM book where book.id=?";
     public final static String deleteBooks = "DELETE FROM book";
-
+    public final static String updateBookInfo="UPDATE book SET name=?, author=?, description=? WHERE id=?";
 
 
 

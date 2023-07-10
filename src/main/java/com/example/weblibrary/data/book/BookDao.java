@@ -8,6 +8,8 @@ public interface BookDao {
     Optional<Book> findBookById(Long id);
     Optional<Book> findBookByNameAndAuthor(String name, String author);
     Long insertBook(Book book);
+    void updateBook(Book book);
+
     void deleteBookById(Long id);
 
     void deleteAllBooks();
