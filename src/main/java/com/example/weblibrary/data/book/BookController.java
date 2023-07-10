@@ -15,9 +15,21 @@ import java.util.Optional;
 public class BookController {
     private final BookService bookService;
     @GetMapping("")
-    public String bookList(Model model){
+    public String bookList(@RequestParam(value = "title", required = false) Optional<String> title,
+                           @RequestParam(value = "author", required = false) Optional<String> author,
+                           @RequestParam(value = "category", required = false) Optional<Long> categoryId,
+                           Model model){
+        if (title.isEmpty()&&author.isEmpty()&& categoryId.isEmpty()){
+            model.addAttribute("books",bookService.getAllBooks());
+        }else{
+            model.addAttribute("books", bookService.getBooksByParams(
+                    title.orElse(null),
+                    author.orElse(null),
+                    categoryId.orElse(null)
+            ));
+
+        }
         model.addAttribute("librarian",true);
-        model.addAttribute("books",bookService.getAllBooks());
         model.addAttribute("categories",bookService.getAllBookCategories());
         return "/book/booksPage";
     }

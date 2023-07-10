@@ -59,4 +59,11 @@ public class BookDaoImpl implements BookDao {
     public void deleteAllBooks() {
         jdbcTemplate.update(SqlQueries.deleteBooks);
     }
+
+    @Override
+    public List<Book> findBooksByParams(String title, String author, Long categoryId) {
+        Object[] args = new Object[] { title, "%" + title + "%", author, "%" + author + "%", categoryId, categoryId };
+        return jdbcTemplate.query(SqlQueries.findBooksByParams, args, new BookRowMapper());
+    }
+
 }

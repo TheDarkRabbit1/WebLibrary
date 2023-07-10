@@ -5,24 +5,28 @@
     <title>Library</title>
     <link rel="stylesheet" th:href="@{/styles/books.css}" />
 </head>
+
 <body>
 <div class="top-section">
     <div class="left-section">
-        <div class="input-container">
-            <input type="text" id="book-title-input">
-            <label for="book-title-input">Book Title:</label>
-        </div>
-        <div class="input-container">
-            <input type="text" id="author-name-input">
-            <label for="author-name-input">Author Name:</label>
-        </div>
-        <div class="select-container">
-            <label for="category-options"></label>
-            <select id="category-options">
-                <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
-            </select>
-        </div>
-        <button>Search</button>
+        <form id="search-form" method="GET" action="/books">
+            <div class="input-container">
+                <input type="text" id="book-title-input" name="title">
+                <label for="book-title-input">Book Title:</label>
+            </div>
+            <div class="input-container">
+                <input type="text" id="author-name-input" name="author">
+                <label for="author-name-input">Author Name:</label>
+            </div>
+            <div class="select-container">
+                <label for="category-options"></label>
+                <select id="category-options" name="category">
+                    <option value="">All</option>
+                    <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+                </select>
+            </div>
+            <button type="submit">Search</button>
+        </form>
     </div>
     <div class="right-section" th:if="${librarian}">
         <button>Manage</button>

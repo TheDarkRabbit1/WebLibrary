@@ -13,4 +13,6 @@ public interface BookDao {
     void deleteBookById(Long id);
 
     void deleteAllBooks();
+
+    List<Book> findBooksByParams(String title, String author, Long categoryId);
 }

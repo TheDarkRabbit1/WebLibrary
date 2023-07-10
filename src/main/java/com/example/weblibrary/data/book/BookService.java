@@ -79,4 +79,8 @@ public class BookService {
     public void updateBook(Book book) {
         bookDao.updateBook(book);
     }
+
+    public List<Book> getBooksByParams(String title, String author, Long categoryId) {
+        return bookDao.findBooksByParams(title, author, categoryId);
+    }
 }
