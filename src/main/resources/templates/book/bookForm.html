@@ -8,31 +8,39 @@
 <body>
 <div class="container">
     <form th:action="@{/books/add}" th:object="${book}" method="post">
+        <input type="hidden" name="id" th:value="${book.id}" />
         <div class="input-container">
+            <div>
             <label for="book-name" class="fade-top">Book Name</label>
             <input type="text" class="form-control" id="book-name" name="name"
                    th:field="${book.name}" th:classappend="${#fields.hasErrors('name')}? 'is-invalid'">
+            </div>
 
+            <div>
             <label for="book-author" class="fade-top">Book Author</label>
             <input type="text" class="form-control" id="book-author" name="author"
                    th:field="${book.author}" th:classappend="${#fields.hasErrors('author')}? 'is-invalid'">
+            </div>
 
+            <div>
             <label for="book-description">Book Description</label>
             <textarea class="form-control" id="book-description" name="description"
                       th:field="${book.description}" th:classappend="${#fields.hasErrors('description')}? 'is-invalid'"></textarea>
+            </div>
         </div>
 
         <div class="select-container">
             <label for="category-options">Category</label>
-            <select id="category-options">
+            <select id="category-options" name="bookCategory">
                 <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
             </select>
+
         </div>
 
 
         <div class="button-container">
-            <button type="button">Back</button>
-            <button type="submit" class="submit-button">Submit</button>
+            <button type="button" onclick="history.go(-1)">Back</button>
+            <button type="submit" class="submit-button" >Submit</button>
         </div>
     </form>
 </div>
