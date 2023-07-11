@@ -128,7 +128,7 @@ h4 {
 p {
     margin-bottom: 1rem;
 }
-.edit-button, .delete-button, #add-button{
+.edit-button, .delete-button, .add-button{
     width: 120px;
     height: 40px;
     background-color: #808080;
@@ -143,14 +143,15 @@ p {
     border-radius: 8px;
     display: none;
 }
-.edit-button:hover, .delete-button:hover, #add-button:hover {
+.edit-button:hover, .delete-button:hover, .add-button:hover {
     background-color: #A9A9A9;
 }
-#add-button {
+.add-button {
     box-sizing: border-box;
     padding: 0;
     height: 40px;
     line-height: 40px;
     float: left;
 }
+
 

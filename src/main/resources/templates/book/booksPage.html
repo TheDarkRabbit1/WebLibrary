@@ -30,19 +30,18 @@
     </div>
     <div class="right-section" th:if="${librarian}">
         <button id="manage-button" onclick="toggleAddBookButton()">Manage</button>
-        <a id="add-button" href="/books/bookForm">Add</a>
+        <a id="add-book-button" class="add-button" href="/books/bookForm">Add Book</a>
     </div>
-
     <script>
         function toggleAddBookButton() {
             var manageButton = document.getElementById("manage-button");
-            var addButton = document.getElementById("add-button");
+            var addBookButton = document.getElementById("add-book-button");
             var editButtons = document.getElementsByClassName("edit-button");
             var deleteButtons = document.getElementsByClassName("delete-button");
             if (manageButton.innerHTML === "Manage") {
                 manageButton.innerHTML = "Done";
                 manageButton.style.backgroundColor = "green";
-                addButton.style.display = "inline-block";
+                addBookButton.style.display = "inline-block";
                 for (var i = 0; i < editButtons.length; i++) {
                     editButtons[i].style.display = "inline-block";
                     deleteButtons[i].style.display = "inline-block";
@@ -50,7 +49,7 @@
             } else {
                 manageButton.innerHTML = "Manage";
                 manageButton.style.backgroundColor = "";
-                addButton.style.display = "none";
+                addBookButton.style.display = "none";
                 for (var i = 0; i < editButtons.length; i++) {
                     editButtons[i].style.display = "none";
                     deleteButtons[i].style.display = "none";
@@ -60,6 +59,8 @@
         window.onload = function() {
             var bookTitleInput = document.getElementById("book-title-input");
             var authorNameInput = document.getElementById("author-name-input");
+            var addBookButton = document.getElementById("add-book-button");
+            addBookButton.style.display = "none";
             bookTitleInput.addEventListener("input", function() {
                 if (bookTitleInput.value) {
                     bookTitleInput.classList.add("has-value");
@@ -76,11 +77,13 @@
             });
         }
 
+
         function confirmDelete(bookId) {
             if (confirm("Are you sure you want to delete this book?")) {
                 window.location.href = "/book/deleteBook?bookId=" + bookId;
             }
         }
+
     </script>
 </div>
 
@@ -96,7 +99,7 @@
                     <p th:text="${book.bookCategory.getName()}">Category</p>
                     <div class="button-container">
                         <a th:href="@{/books/bookForm(bookId=${book.id})}"><button class="edit-button">Edit</button></a>
-                        <button class="delete-button" onclick="confirmDelete(${book.id})">Delete</button>
+                        <button class="delete-button" type="submit" onclick="confirmDelete(${book.id})">Delete</button>
                     </div>
                 </div>
             </div>

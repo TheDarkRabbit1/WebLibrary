@@ -11,38 +11,63 @@
         <input type="hidden" name="id" th:value="${book.id}" />
         <div class="input-container">
             <div>
-            <label for="book-name" class="fade-top">Book Name</label>
-            <input type="text" class="form-control" id="book-name" name="name"
-                   th:field="${book.name}" th:classappend="${#fields.hasErrors('name')}? 'is-invalid'">
+                <label for="book-name" class="fade-top">Book Name</label>
+                <input type="text" class="form-control" id="book-name" name="name"
+                       th:field="${book.name}" th:classappend="${#fields.hasErrors('name')}? 'is-invalid'">
             </div>
 
             <div>
-            <label for="book-author" class="fade-top">Book Author</label>
-            <input type="text" class="form-control" id="book-author" name="author"
-                   th:field="${book.author}" th:classappend="${#fields.hasErrors('author')}? 'is-invalid'">
+                <label for="book-author" class="fade-top">Book Author</label>
+                <input type="text" class="form-control" id="book-author" name="author"
+                       th:field="${book.author}" th:classappend="${#fields.hasErrors('author')}? 'is-invalid'">
             </div>
 
             <div>
-            <label for="book-description">Book Description</label>
-            <textarea class="form-control" id="book-description" name="description"
-                      th:field="${book.description}" th:classappend="${#fields.hasErrors('description')}? 'is-invalid'"></textarea>
+                <label for="book-description">Book Description</label>
+                <textarea class="form-control" id="book-description" name="description"
+                          th:field="${book.description}" th:classappend="${#fields.hasErrors('description')}? 'is-invalid'"></textarea>
             </div>
         </div>
 
         <div class="select-container">
             <label for="category-options">Category</label>
+            <div>
+                <input type="checkbox" id="new-category-checkbox" name="newCategoryCheckbox" onchange="toggleCategoryInput(this)">
+                <label for="new-category-checkbox" style="display: inline;">Add New Category</label>
+            </div>
             <select id="category-options" name="bookCategory">
                 <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
             </select>
-
+            <div>
+                <label for="new-category-input" style="display: none;">New Book Category Name</label>
+                <input type="text" id="new-category-input" name="newCategory" style="display: none;">
+            </div>
         </div>
-
 
         <div class="button-container">
             <button type="button" onclick="history.go(-1)">Back</button>
-            <button type="submit" class="submit-button" >Submit</button>
+            <button type="submit" class="submit-button">Submit</button>
         </div>
     </form>
 </div>
+
+<script>
+    function toggleCategoryInput(checkbox) {
+        var select = document.getElementById("category-options");
+        var input = document.getElementById("new-category-input");
+        var newCategoryLabel = document.querySelector("label[for='new-category-input']");
+
+        if (checkbox.checked) {
+            select.disabled = true;
+            input.style.display = "block";
+            newCategoryLabel.style.display = "inline";
+        } else {
+            select.disabled = false;
+            input.style.display = "none";
+            newCategoryLabel.style.display = "none";
+        }
+    }
+</script>
+
 </body>
 </html>
