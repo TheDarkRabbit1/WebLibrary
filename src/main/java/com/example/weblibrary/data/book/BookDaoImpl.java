@@ -32,12 +32,12 @@ public class BookDaoImpl implements BookDao {
     }
 
     @Override
-    public Long insertBook(Book book) {
+    public Long insertBook(Book book, Long bookCategoryId) {
         return (long) jdbcTemplate.update(SqlQueries.insertBook,
                 book.getName(),
                 book.getAuthor(),
                 book.getDescription(),
-                book.getBookCategory().getId()
+                bookCategoryId
                 );
     }
 

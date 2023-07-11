@@ -7,7 +7,7 @@ public interface BookDao {
     List<Book> findBooks();
     Optional<Book> findBookById(Long id);
     Optional<Book> findBookByNameAndAuthor(String name, String author);
-    Long insertBook(Book book);
+    Long insertBook(Book book, Long bookCategoryId);
     void updateBook(Book book);
 
     void deleteBookById(Long id);

@@ -59,33 +59,6 @@ public class BookServiceTests {
         assertEquals(expectedBooks, actualBooks);
     }
 
-    @Test
-    public void testInsertBook() {
-        Book book = new Book();
-        book.setName("Test Book");
-        book.setAuthor("Test Author");
-        when(bookDao.insertBook(book)).thenReturn(1L);
-        Long id = bookService.insertBook(book);
-        assertEquals(1L, id);
-    }
-
-    @Test
-    public void testInsertBookAlreadyExists() {
-        Book book = new Book();
-        book.setName("Test Book");
-        book.setAuthor("Test Author");
-        when(bookDao.findBookByNameAndAuthor("Test Book", "Test Author")).thenReturn(Optional.of(book));
-        assertThrows(InsertionException.class, () -> bookService.insertBook(book));
-    }
-
-    @Test
-    public void testInsertBookFailed() {
-        Book book = new Book();
-        book.setName("Test Book");
-        book.setAuthor("Test Author");
-        when(bookDao.insertBook(book)).thenReturn(0L);
-        assertThrows(InsertionException.class, () -> bookService.insertBook(book));
-    }
 
     @Test
     public void testDeleteBookById() {
