@@ -1,6 +1,7 @@
 package com.example.weblibrary.data.book;
 
         import com.example.weblibrary.data.book.bookcategory.BookCategory;
+        import com.example.weblibrary.exceptions.EntityNotFoundException;
         import jakarta.validation.Valid;
         import lombok.AllArgsConstructor;
         import org.springframework.stereotype.Controller;
@@ -52,20 +53,28 @@ public class BookController {
     @PostMapping("/add")
     public String addNewBook(@ModelAttribute("book") @Valid Book book,
                              BindingResult bindingResult,
-                             @RequestParam("bookCategory") long bookCategoryId,
+                             @RequestParam(value = "bookCategory", required = false) Optional<Long> bookCategoryId,
+                             @RequestParam(value = "newCategory", required = false) Optional<String> newCategory,
                              Model model){
 //        if (bindingResult.hasErrors()){
 //            model.addAttribute("categories",bookService.getAllBookCategories());
 //            return "/book/bookForm";
 //        }
+        if (newCategory.isPresent()){
+            BookCategory bookCategory = new BookCategory();
+            bookCategory.setName(newCategory.get());
+            bookCategoryId = Optional.of(bookService.insertBookCategory(bookCategory));
+        }
+        if (bookCategoryId.isEmpty())
+            throw new EntityNotFoundException("No book Category Id was formed for Insertion");
         if (book.getId()==null){
-            bookService.insertBook(book,bookCategoryId);
+            bookService.insertBook(book,bookCategoryId.get());
         } else {
             Book existingBook = bookService.getBookById(book.getId());
             existingBook.setName(book.getName());
             existingBook.setAuthor(book.getAuthor());
             existingBook.setDescription(book.getDescription());
-            existingBook.setBookCategory(bookService.getBookCategoryById(bookCategoryId));
+            existingBook.setBookCategory(bookService.getBookCategoryById(bookCategoryId.get()));
             bookService.updateBook(existingBook);
         }
         return "redirect:/books";

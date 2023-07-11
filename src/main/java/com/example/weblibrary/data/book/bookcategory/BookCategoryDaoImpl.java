@@ -28,13 +28,14 @@ public class BookCategoryDaoImpl implements BookCategoryDao{
 
     @Override
     public Optional<BookCategory> findBookCategoryByName(String name) {
-        return Optional.of((BookCategory) jdbcTemplate.query(SqlQueries.getBookCategoryByName, new BookCategoryRowMapper(),name));
+        return  jdbcTemplate.query(SqlQueries.getBookCategoryByName, new BookCategoryRowMapper(),name).stream().findFirst();
     }
 
     @Override
     public Long insertBook(BookCategory bookCategory) {
-        return (long) jdbcTemplate.update(SqlQueries.insertBookCategory,
+        jdbcTemplate.update(SqlQueries.insertBookCategory,
                 bookCategory.getName());
+        return findBookCategoryByName(bookCategory.getName()).orElseThrow().getId();
     }
 
     @Override

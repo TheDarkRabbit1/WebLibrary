@@ -33,12 +33,13 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public Long insertBook(Book book, Long bookCategoryId) {
-        return (long) jdbcTemplate.update(SqlQueries.insertBook,
+        jdbcTemplate.update(SqlQueries.insertBook,
                 book.getName(),
                 book.getAuthor(),
                 book.getDescription(),
                 bookCategoryId
-                );
+        );
+        return findBookByNameAndAuthor(book.getName(), book.getAuthor()).orElseThrow().getId();
     }
 
     @Override
@@ -47,6 +48,7 @@ public class BookDaoImpl implements BookDao {
                 book.getName(),
                 book.getAuthor(),
                 book.getDescription(),
+                book.getBookCategory().getId(),
                 book.getId());
     }
 
