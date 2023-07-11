@@ -21,11 +21,11 @@ public class BookService {
     public List<Book> getAllBooks (){
         return bookDao.findBooks();
     }
-    public Long insertBook(Book book){
+    public Long insertBook(Book book, Long bookCategoryId){
         bookDao.findBookByNameAndAuthor(book.getName(),book.getAuthor()).ifPresent(b->{
             throw new InsertionException("Book with this name already exist");
         });
-        Long id = bookDao.insertBook(book);
+        Long id = bookDao.insertBook(book, bookCategoryId);
         if (id<=0)
             throw new InsertionException("failed to insert book");
         return id;

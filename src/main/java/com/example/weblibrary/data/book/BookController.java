@@ -1,13 +1,14 @@
 package com.example.weblibrary.data.book;
 
-import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.*;
+        import com.example.weblibrary.data.book.bookcategory.BookCategory;
+        import jakarta.validation.Valid;
+        import lombok.AllArgsConstructor;
+        import org.springframework.stereotype.Controller;
+        import org.springframework.ui.Model;
+        import org.springframework.validation.BindingResult;
+        import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
+        import java.util.Optional;
 
 @Controller
 @RequestMapping("/books")
@@ -36,31 +37,43 @@ public class BookController {
     @GetMapping("/bookForm")
     public String displayEmptyBookForm(Model model,
                                        @RequestParam(value = "bookId", required = false) Optional<Long> bookId){
-        if (bookId.isPresent()){
-            model.addAttribute("book",bookService.getBookById(bookId.get()));
-        }else{
-            model.addAttribute("book",new Book());
+        if (bookId.isPresent()) {
+            Long id = bookId.get();
+            Book book = bookService.getBookById(id);
+            if (book != null) {
+                model.addAttribute("book", book);
+            }
+        } else {
+            model.addAttribute("book", new Book());
         }
-        model.addAttribute("categories",bookService.getAllBookCategories());
+        model.addAttribute("categories", bookService.getAllBookCategories());
         return "/book/bookForm";
     }
     @PostMapping("/add")
     public String addNewBook(@ModelAttribute("book") @Valid Book book,
                              BindingResult bindingResult,
+                             @RequestParam("bookCategory") long bookCategoryId,
                              Model model){
-        if (bindingResult.hasErrors()){
-            model.addAttribute("categories",bookService.getAllBookCategories());
-            return "/book/bookForm";
-        }
+//        if (bindingResult.hasErrors()){
+//            model.addAttribute("categories",bookService.getAllBookCategories());
+//            return "/book/bookForm";
+//        }
         if (book.getId()==null){
-            bookService.insertBook(book);
+            bookService.insertBook(book,bookCategoryId);
         } else {
             Book existingBook = bookService.getBookById(book.getId());
             existingBook.setName(book.getName());
             existingBook.setAuthor(book.getAuthor());
             existingBook.setDescription(book.getDescription());
+            existingBook.setBookCategory(bookService.getBookCategoryById(bookCategoryId));
             bookService.updateBook(existingBook);
         }
         return "redirect:/books";
     }
+    @PostMapping("/deleteBook")
+    public String deleteBook(@RequestParam("bookId") Long bookId) {
+        bookService.deleteBookById(bookId);
+        return "redirect:/books";
+    }
+
 }
