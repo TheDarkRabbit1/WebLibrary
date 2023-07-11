@@ -30,12 +30,12 @@
         </div>
 
         <div class="select-container">
-            <label for="category-options">Category</label>
+            <label for="bookCategory">Category</label>
             <div>
                 <input type="checkbox" id="new-category-checkbox" name="newCategoryCheckbox" onchange="toggleCategoryInput(this)">
                 <label for="new-category-checkbox" style="display: inline;">Add New Category</label>
             </div>
-            <select id="category-options" name="bookCategory">
+            <select class="category-options" id="bookCategory" name="bookCategoryId">
                 <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
             </select>
             <div>

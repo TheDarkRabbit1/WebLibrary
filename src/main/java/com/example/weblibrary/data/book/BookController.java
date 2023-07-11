@@ -1,15 +1,17 @@
 package com.example.weblibrary.data.book;
 
-        import com.example.weblibrary.data.book.bookcategory.BookCategory;
-        import com.example.weblibrary.exceptions.EntityNotFoundException;
-        import jakarta.validation.Valid;
-        import lombok.AllArgsConstructor;
-        import org.springframework.stereotype.Controller;
-        import org.springframework.ui.Model;
-        import org.springframework.validation.BindingResult;
-        import org.springframework.web.bind.annotation.*;
+import com.example.weblibrary.data.book.bookcategory.BookCategory;
+import com.example.weblibrary.exceptions.EntityNotFoundException;
+import jakarta.validation.Valid;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
-        import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/books")
@@ -38,29 +40,37 @@ public class BookController {
     @GetMapping("/bookForm")
     public String displayEmptyBookForm(Model model,
                                        @RequestParam(value = "bookId", required = false) Optional<Long> bookId){
+        List<BookCategory> bookCategories = bookService.getAllBookCategories();
         if (bookId.isPresent()) {
             Long id = bookId.get();
             Book book = bookService.getBookById(id);
             if (book != null) {
                 model.addAttribute("book", book);
             }
+            bookCategories.remove(book.getBookCategory());
+            bookCategories.add(0,book.getBookCategory());
         } else {
             model.addAttribute("book", new Book());
         }
-        model.addAttribute("categories", bookService.getAllBookCategories());
+        model.addAttribute("categories", bookCategories);
         return "/book/bookForm";
     }
     @PostMapping("/add")
     public String addNewBook(@ModelAttribute("book") @Valid Book book,
                              BindingResult bindingResult,
-                             @RequestParam(value = "bookCategory", required = false) Optional<Long> bookCategoryId,
+                             @RequestParam(value = "bookCategoryId", required = false) Optional<Long> bookCategoryId,
                              @RequestParam(value = "newCategory", required = false) Optional<String> newCategory,
                              Model model){
-//        if (bindingResult.hasErrors()){
-//            model.addAttribute("categories",bookService.getAllBookCategories());
-//            return "/book/bookForm";
-//        }
-        if (newCategory.isPresent()){
+        if (bindingResult.hasErrors()){
+            System.out.println("RESULT");
+            System.out.println(bindingResult.getAllErrors());
+            List<BookCategory> bookCategories = bookService.getAllBookCategories();
+            bookCategories.remove(book.getBookCategory());
+            bookCategories.add(0,book.getBookCategory());
+            model.addAttribute("categories",bookCategories);
+            return "/book/bookForm";
+        }
+        if (newCategory.isPresent()&& !newCategory.get().isEmpty()){
             BookCategory bookCategory = new BookCategory();
             bookCategory.setName(newCategory.get());
             bookCategoryId = Optional.of(bookService.insertBookCategory(bookCategory));
