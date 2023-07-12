@@ -8,6 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +37,15 @@ public class BookController {
                     categoryId.orElse(null)
             ));
         }
-        model.addAttribute("librarian", true);
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        boolean isLibrarian = authentication.getAuthorities().stream()
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("LIBRARIAN"));
+        System.out.println("AUTH STATUS:");
+        System.out.println("USER AUTH-ED?:"+authentication.isAuthenticated());
+        System.out.println("ROLES:"+authentication.getAuthorities().toString());
+
+        model.addAttribute("librarian", isLibrarian);
         model.addAttribute("categories", bookService.getAllBookCategories());
         return "book/booksPage";
     }
@@ -43,6 +54,14 @@ public class BookController {
     public String displayEmptyBookForm(Model model,
                                        @RequestParam(value = "bookId", required = false) Optional<Long> bookId) {
         List<BookCategory> bookCategories = bookService.getAllBookCategories();
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        boolean isLibrarian = authentication.getAuthorities().stream()
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("LIBRARIAN"));
+        System.out.println("AUTH STATUS:");
+        System.out.println("USER AUTH-ED?:"+authentication.isAuthenticated());
+        System.out.println("ROLES:"+authentication.getAuthorities().toString());
+
         if (bookId.isPresent()) {
             Long id = bookId.get();
             Book book = bookService.getBookById(id);

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Library</title>
-    <link rel="stylesheet" th:href="@{/styles/books.css}" />
+    <link rel="stylesheet" th:href="@{/styles/book/books.css}" />
 </head>
 
 <body>
@@ -97,7 +97,7 @@
                     <p th:text="${book.author}">Author</p>
                     <p th:text="${book.description}">Description</p>
                     <p th:text="${book.bookCategory.getName()}">Category</p>
-                    <div class="button-container">
+                    <div class="button-container" th:if="${librarian}">
                         <a th:href="@{/books/bookForm(bookId=${book.id})}"><button class="edit-button">Edit</button></a>
                         <button class="delete-button" type="submit" onclick="confirmDelete(${book.id})">Delete</button>
                     </div>
