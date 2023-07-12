@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="En">
+<head>
+    <title>Error Page</title>
+    <link rel="stylesheet" th:href="@{/styles/error.css}">
+</head>
+<body>
+<div class="error-container">
+    <h1 class="error-code" th:text="${errorCode}"></h1>
+    <div class="error-details">
+        <p th:text="${message}">An error occurred.</p>
+    </div>
+    <a th:href="@{/books}" class="button">Go to Books</a>
+</div>
+</body>
+</html>
