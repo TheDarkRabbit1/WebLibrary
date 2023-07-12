@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Book Form</title>
@@ -13,20 +13,24 @@
             <div>
                 <label for="book-name" class="fade-top">Book Name</label>
                 <input type="text" class="form-control" id="book-name" name="name"
-                       th:field="${book.name}" th:classappend="${#fields.hasErrors('name')}? 'is-invalid'">
+                       th:field="*{name}" th:classappend="${#fields.hasErrors('name')}? 'is-invalid'">
+                <span class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
             </div>
 
             <div>
                 <label for="book-author" class="fade-top">Book Author</label>
                 <input type="text" class="form-control" id="book-author" name="author"
-                       th:field="${book.author}" th:classappend="${#fields.hasErrors('author')}? 'is-invalid'">
+                       th:field="*{author}" th:classappend="${#fields.hasErrors('author')}? 'is-invalid'">
+                <span class="error" th:if="${#fields.hasErrors('author')}" th:errors="*{author}"></span>
             </div>
 
             <div>
                 <label for="book-description">Book Description</label>
                 <textarea class="form-control" id="book-description" name="description"
-                          th:field="${book.description}" th:classappend="${#fields.hasErrors('description')}? 'is-invalid'"></textarea>
+                          th:field="*{description}" th:classappend="${#fields.hasErrors('description')}? 'is-invalid'"></textarea>
+                <span class="error" th:if="${#fields.hasErrors('description')}" th:errors="*{description}"></span>
             </div>
+
         </div>
 
         <div class="select-container">
@@ -36,7 +40,7 @@
                 <label for="new-category-checkbox" style="display: inline;">Add New Category</label>
             </div>
             <select class="category-options" id="bookCategory" name="bookCategoryId">
-                <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+                <option th:each="category : ${categories}" th:value="${category.getId()}" th:text="${category.getName()}"></option>
             </select>
             <div>
                 <label for="new-category-input" style="display: none;">New Book Category Name</label>
@@ -53,7 +57,7 @@
 
 <script>
     function toggleCategoryInput(checkbox) {
-        var select = document.getElementById("category-options");
+        var select = document.getElementById("bookCategory");
         var input = document.getElementById("new-category-input");
         var newCategoryLabel = document.querySelector("label[for='new-category-input']");
 
