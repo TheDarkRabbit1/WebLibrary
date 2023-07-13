@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Library Homepage</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/styles/misc/home-page.css}">
+</head>
+
+<body>
+<div th:if="${username != null}">
+  <p>Welcome, <span th:text="${username}"></span>!</p>
+  <p>Your authorities: <span th:text="${authorities}"></span></p>
+</div>
+
+<div class="top-section">
+  <div class="left-section">
+    <h1>Library</h1>
+    <button onclick="location.href='/books'">Library</button>
+  </div>
+  <div class="right-section">
+    <button onclick="location.href='/login'">Login</button>
+    <button onclick="location.href='/registration'">Registration</button>
+  </div>
+</div>
+
+<div class="bottom-section">
+  <h2>Welcome to our Library!</h2>
+  <p>Here you can find a wide selection of books to read and enjoy. Use the buttons above to login, register, or browse our collection.</p>
+</div>
+</body>
+</html>
