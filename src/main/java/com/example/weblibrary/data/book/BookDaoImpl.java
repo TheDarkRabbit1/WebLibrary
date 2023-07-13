@@ -1,6 +1,5 @@
 package com.example.weblibrary.data.book;
 
-import com.example.weblibrary.utils.SqlQueries;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -18,22 +17,42 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public List<Book> findBooks() {
-        return jdbcTemplate.query(SqlQueries.getBooks, new BookRowMapper());
+        String sql = """
+                SELECT book.*, book_category.name as book_category_name, book_category.id as book_category_id 
+                FROM book 
+                JOIN book_category on book_category.id = book.bookcategory_id
+                """;
+        return jdbcTemplate.query(sql, new BookRowMapper());
     }
 
     @Override
     public Optional<Book> findBookById(Long id) {
-        return jdbcTemplate.query(SqlQueries.getBookById,new BookRowMapper(),id).stream().findFirst();
+        String sql = """
+                SELECT book.*, book_category.name as book_category_name, book_category.id as book_category_id 
+                FROM book 
+                JOIN book_category on book_category.id = book.bookcategory_id 
+                WHERE book.id=?
+                """;
+        return jdbcTemplate.query(sql, new BookRowMapper(), id).stream().findFirst();
     }
 
     @Override
     public Optional<Book> findBookByNameAndAuthor(String name, String author) {
-        return jdbcTemplate.query(SqlQueries.getBookByNameAndAuthor,new BookRowMapper(),name,author).stream().findFirst();
+        String sql = """
+                SELECT book.*, book_category.name as book_category_name, book_category.id as book_category_id 
+                FROM book 
+                JOIN book_category on book_category.id = book.bookcategory_id 
+                WHERE book.name=? and book.author=?
+                """;
+        return jdbcTemplate.query(sql, new BookRowMapper(), name, author).stream().findFirst();
     }
 
     @Override
     public Long insertBook(Book book, Long bookCategoryId) {
-        jdbcTemplate.update(SqlQueries.insertBook,
+        String sql = """
+                INSERT INTO book (name, author, description, bookCategory_id) VALUES (?, ?, ?, ?)
+                """;
+        jdbcTemplate.update(sql,
                 book.getName(),
                 book.getAuthor(),
                 book.getDescription(),
@@ -44,7 +63,11 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public void updateBook(Book book) {
-        jdbcTemplate.update(SqlQueries.updateBookInfo,
+        String sql = """
+                UPDATE book SET name=?, author=?, description=?, bookCategory_id=? 
+                WHERE id=?
+                """;
+        jdbcTemplate.update(sql,
                 book.getName(),
                 book.getAuthor(),
                 book.getDescription(),
@@ -54,18 +77,31 @@ public class BookDaoImpl implements BookDao {
 
     @Override
     public void deleteBookById(Long id) {
-        jdbcTemplate.update(SqlQueries.deleteBookById,id);
+        String sql = """
+                DELETE FROM book where book.id=?
+                """;
+        jdbcTemplate.update(sql, id);
     }
 
     @Override
     public void deleteAllBooks() {
-        jdbcTemplate.update(SqlQueries.deleteBooks);
+        String sql = """
+                DELETE FROM book
+                """;
+        jdbcTemplate.update(sql);
     }
 
     @Override
     public List<Book> findBooksByParams(String title, String author, Long categoryId) {
-        Object[] args = new Object[] { title, "%" + title + "%", author, "%" + author + "%", categoryId, categoryId };
-        return jdbcTemplate.query(SqlQueries.findBooksByParams, args, new BookRowMapper());
+        String sql = """
+                SELECT book.*, book_category.name as book_category_name, book_category.id as book_category_id 
+                FROM book 
+                JOIN book_category on book_category.id = book.bookcategory_id 
+                WHERE (? IS NULL OR LOWER(book.name) LIKE LOWER(?)) AND (? IS NULL OR LOWER(book.author) LIKE LOWER(?)) AND ((?::bigint IS NULL) OR (book_category.id = ?))
+                            
+                    """;
+        Object[] args = new Object[]{title, "%" + title + "%", author, "%" + author + "%", categoryId, categoryId};
+        return jdbcTemplate.query(sql, args, new BookRowMapper());
     }
 
 }

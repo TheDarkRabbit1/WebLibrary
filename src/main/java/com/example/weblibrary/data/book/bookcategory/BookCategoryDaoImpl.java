@@ -1,7 +1,6 @@
 package com.example.weblibrary.data.book.bookcategory;
 
 
-import com.example.weblibrary.utils.SqlQueries;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -18,33 +17,50 @@ public class BookCategoryDaoImpl implements BookCategoryDao{
 
     @Override
     public List<BookCategory> findBookCategories() {
-        return jdbcTemplate.query(SqlQueries.getBookCategories, new BookCategoryRowMapper());
+        String sql = """
+                select * from book_category
+                """;
+        return jdbcTemplate.query(sql, new BookCategoryRowMapper());
     }
 
     @Override
     public Optional<BookCategory> findBookCategoryById(Long id) {
-        return jdbcTemplate.query(SqlQueries.getBookCategoryById, new BookCategoryRowMapper(), id).stream().findFirst();
+        String sql= """
+                select * from book_category where id=?
+                """;
+        return jdbcTemplate.query(sql, new BookCategoryRowMapper(), id).stream().findFirst();
     }
 
     @Override
     public Optional<BookCategory> findBookCategoryByName(String name) {
-        return  jdbcTemplate.query(SqlQueries.getBookCategoryByName, new BookCategoryRowMapper(),name).stream().findFirst();
+        String sql = """
+                select * from book_category where name=?
+                """;
+        return  jdbcTemplate.query(sql, new BookCategoryRowMapper(),name).stream().findFirst();
     }
 
     @Override
-    public Long insertBook(BookCategory bookCategory) {
-        jdbcTemplate.update(SqlQueries.insertBookCategory,
-                bookCategory.getName());
+    public Long insertBookCategory(BookCategory bookCategory) {
+        String sql = """
+                insert into book_category (name) Values(?)
+                """;
+        jdbcTemplate.update(sql, bookCategory.getName());
         return findBookCategoryByName(bookCategory.getName()).orElseThrow().getId();
     }
 
     @Override
     public void deleteBookById(Long id) {
-        jdbcTemplate.update(SqlQueries.deleteBookCategoryById, id);
+        String sql = """
+                delete from book_category where book_category.id=?
+                """;
+        jdbcTemplate.update(sql, id);
     }
 
     @Override
     public void deleteAllBooks() {
-        jdbcTemplate.update(SqlQueries.deleteBookCategories);
+        String sql = """
+                delete from book_category
+                """;
+        jdbcTemplate.update(sql);
     }
 }
