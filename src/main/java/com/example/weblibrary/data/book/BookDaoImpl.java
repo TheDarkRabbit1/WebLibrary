@@ -18,8 +18,8 @@ public class BookDaoImpl implements BookDao {
     @Override
     public List<Book> findBooks() {
         String sql = """
-                SELECT book.*, book_category.name as book_category_name, book_category.id as book_category_id 
-                FROM book 
+                SELECT book.*, book_category.name as book_category_name, book_category.id as book_category_id
+                FROM book
                 JOIN book_category on book_category.id = book.bookcategory_id
                 """;
         return jdbcTemplate.query(sql, new BookRowMapper());
@@ -28,9 +28,9 @@ public class BookDaoImpl implements BookDao {
     @Override
     public Optional<Book> findBookById(Long id) {
         String sql = """
-                SELECT book.*, book_category.name as book_category_name, book_category.id as book_category_id 
-                FROM book 
-                JOIN book_category on book_category.id = book.bookcategory_id 
+                SELECT book.*, book_category.name as book_category_name, book_category.id as book_category_id
+                FROM book
+                JOIN book_category on book_category.id = book.bookcategory_id
                 WHERE book.id=?
                 """;
         return jdbcTemplate.query(sql, new BookRowMapper(), id).stream().findFirst();
@@ -39,9 +39,9 @@ public class BookDaoImpl implements BookDao {
     @Override
     public Optional<Book> findBookByNameAndAuthor(String title, String author) {
         String sql = """
-                SELECT book.*, book_category.name as book_category_name, book_category.id as book_category_id 
-                FROM book 
-                JOIN book_category on book_category.id = book.bookcategory_id 
+                SELECT book.*, book_category.name as book_category_name, book_category.id as book_category_id
+                FROM book
+                JOIN book_category on book_category.id = book.bookcategory_id
                 WHERE book.title=? and book.author=?
                 """;
         return jdbcTemplate.query(sql, new BookRowMapper(), title, author).stream().findFirst();
@@ -64,7 +64,7 @@ public class BookDaoImpl implements BookDao {
     @Override
     public void updateBook(Book book) {
         String sql = """
-                UPDATE book SET title=?, author=?, description=?, bookCategory_id=? 
+                UPDATE book SET title=?, author=?, description=?, bookCategory_id=?
                 WHERE id=?
                 """;
         jdbcTemplate.update(sql,
@@ -94,11 +94,10 @@ public class BookDaoImpl implements BookDao {
     @Override
     public List<Book> findBooksByParams(String title, String author, Long categoryId) {
         String sql = """
-                SELECT book.*, book_category.name as book_category_name, book_category.id as book_category_id 
-                FROM book 
-                JOIN book_category on book_category.id = book.bookcategory_id 
+                SELECT book.*, book_category.name as book_category_name, book_category.id as book_category_id
+                FROM book
+                JOIN book_category on book_category.id = book.bookcategory_id
                 WHERE (? IS NULL OR LOWER(book.title) LIKE LOWER(?)) AND (? IS NULL OR LOWER(book.author) LIKE LOWER(?)) AND ((?::bigint IS NULL) OR (book_category.id = ?))
-                            
                     """;
         Object[] args = new Object[]{title, "%" + title + "%", author, "%" + author + "%", categoryId, categoryId};
         return jdbcTemplate.query(sql, args, new BookRowMapper());

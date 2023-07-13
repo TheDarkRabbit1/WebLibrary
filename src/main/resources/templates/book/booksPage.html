@@ -35,15 +35,15 @@
     </div>
     <script>
         function toggleAddBookButton() {
-            var manageButton = document.getElementById("manage-button");
-            var addBookButton = document.getElementById("add-book-button");
-            var editButtons = document.getElementsByClassName("edit-button");
-            var deleteButtons = document.getElementsByClassName("delete-button");
+            const manageButton = document.getElementById("manage-button");
+            const addBookButton = document.getElementById("add-book-button");
+            const editButtons = document.getElementsByClassName("edit-button");
+            const deleteButtons = document.getElementsByClassName("delete-button");
             if (manageButton.innerHTML === "Manage") {
                 manageButton.innerHTML = "Done";
                 manageButton.style.backgroundColor = "green";
                 addBookButton.style.display = "inline-block";
-                for (var i = 0; i < editButtons.length; i++) {
+                for (let i = 0; i < editButtons.length; i++) {
                     editButtons[i].style.display = "inline-block";
                     deleteButtons[i].style.display = "inline-block";
                 }
@@ -51,7 +51,7 @@
                 manageButton.innerHTML = "Manage";
                 manageButton.style.backgroundColor = "";
                 addBookButton.style.display = "none";
-                for (var i = 0; i < editButtons.length; i++) {
+                for (let i = 0; i < editButtons.length; i++) {
                     editButtons[i].style.display = "none";
                     deleteButtons[i].style.display = "none";
                 }
@@ -59,9 +59,9 @@
         }
 
         window.onload = function () {
-            var bookTitleInput = document.getElementById("book-title-input");
-            var authorNameInput = document.getElementById("author-name-input");
-            var addBookButton = document.getElementById("add-book-button");
+            const bookTitleInput = document.getElementById("book-title-input");
+            const authorNameInput = document.getElementById("author-name-input");
+            const addBookButton = document.getElementById("add-book-button");
             addBookButton.style.display = "none";
             bookTitleInput.addEventListener("input", function () {
                 if (bookTitleInput.value) {

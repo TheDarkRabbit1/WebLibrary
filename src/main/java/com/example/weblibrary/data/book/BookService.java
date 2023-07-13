@@ -3,6 +3,7 @@ package com.example.weblibrary.data.book;
 import com.example.weblibrary.data.book.bookcategory.BookCategory;
 import com.example.weblibrary.data.book.bookcategory.BookCategoryDao;
 import com.example.weblibrary.exceptions.EntityNotFoundException;
+import com.example.weblibrary.exceptions.ExistingEntityException;
 import com.example.weblibrary.exceptions.InsertionException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -23,7 +24,7 @@ public class BookService {
     }
     public Long insertBook(Book book, Long bookCategoryId){
         bookDao.findBookByNameAndAuthor(book.getTitle(),book.getAuthor()).ifPresent(b->{
-            throw new InsertionException("Book with this name already exist");
+            throw new ExistingEntityException("Book with this name already exist");
         });
         Long id = bookDao.insertBook(book, bookCategoryId);
         if (id<=0)
@@ -55,7 +56,7 @@ public class BookService {
     public Long insertBookCategory(BookCategory bookCategory) {
         bookCategoryDao.findBookCategoryByName(bookCategory.getName())
                 .ifPresent(bc -> {
-                    throw new InsertionException("Category with this name already exists");
+                    throw new ExistingEntityException("Category with this name already exists");
                 });
         Long id = bookCategoryDao.insertBookCategory(bookCategory);
         if (id <= 0)

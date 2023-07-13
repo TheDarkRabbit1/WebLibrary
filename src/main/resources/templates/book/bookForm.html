@@ -57,9 +57,9 @@
 
 <script>
     function toggleCategoryInput(checkbox) {
-        var select = document.getElementById("bookCategory");
-        var input = document.getElementById("new-category-input");
-        var newCategoryLabel = document.querySelector("label[for='new-category-input']");
+        const select = document.getElementById("bookCategory");
+        const input = document.getElementById("new-category-input");
+        const newCategoryLabel = document.querySelector("label[for='new-category-input']");
 
         if (checkbox.checked) {
             select.disabled = true;
