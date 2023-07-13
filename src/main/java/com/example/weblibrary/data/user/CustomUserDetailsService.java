@@ -1,8 +1,6 @@
 package com.example.weblibrary.data.user;
 
-import com.example.weblibrary.exceptions.EntityNotFoundException;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,15 +15,12 @@ import java.util.List;
 @AllArgsConstructor
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private UserDao userDao;
+    private UserService userService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userDao.findByUsername(username)
-                .orElseThrow(()->new EntityNotFoundException(String.format("user with %s username wasn't found",username)));
-
+        User user = userService.findUserByUsername(username);
         List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority(user.getRole().name()));
-
         return new org.springframework.security.core.userdetails.User(
                 user.getUsername(),
                 user.getPassword(),
