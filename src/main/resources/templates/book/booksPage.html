@@ -93,7 +93,7 @@
             <div class="card">
                 <div class="container">
                     <img src="/images/placeholder-book.png" alt="Image" class="center">
-                    <h4><b th:text="${book.name}">Book Name</b></h4>
+                    <h4><b th:text="${book.getTitle}">Book Name</b></h4>
                     <p th:text="${book.author}">Author</p>
                     <p th:text="${book.description}">Description</p>
                     <p th:text="${book.bookCategory.getName()}">Category</p>

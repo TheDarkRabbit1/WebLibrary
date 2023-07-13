@@ -11,10 +11,10 @@
         <input type="hidden" name="id" th:value="${book.id}" />
         <div class="input-container">
             <div>
-                <label for="book-name" class="fade-top">Book Name</label>
-                <input type="text" class="form-control" id="book-name" name="name"
-                       th:field="*{name}" th:classappend="${#fields.hasErrors('name')}? 'is-invalid'">
-                <span class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+                <label for="book-title" class="fade-top">Book Title</label>
+                <input type="text" class="form-control" id="book-title" name="title"
+                       th:field="*{title}" th:classappend="${#fields.hasErrors('title')}? 'is-invalid'">
+                <span class="error" th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></span>
             </div>
 
             <div>

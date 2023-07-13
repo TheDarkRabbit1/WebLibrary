@@ -37,7 +37,7 @@ public class BookServiceTests {
     public void testGetBookById() {
         Book expectedBook = new Book();
         expectedBook.setId(1L);
-        expectedBook.setName("Test Book");
+        expectedBook.setTitle("Test Book");
         when(bookDao.findBookById(1L)).thenReturn(Optional.of(expectedBook));
         Book actualBook = bookService.getBookById(1L);
         assertEquals(expectedBook, actualBook);

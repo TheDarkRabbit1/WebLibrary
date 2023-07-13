@@ -5,7 +5,7 @@ CREATE TABLE book_category(
 
 CREATE TABLE book(
     id SERIAL PRIMARY KEY,
-    name varchar(128) NOT NULL,
+    title varchar(128) NOT NULL,
     author varchar(64) NOT NULL,
     description varchar(255) NOT NULL,
     bookCategory_id int NOT NULL,

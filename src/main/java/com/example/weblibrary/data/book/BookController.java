@@ -39,10 +39,6 @@ public class BookController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         boolean isLibrarian = authentication.getAuthorities().stream()
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("LIBRARIAN"));
-        System.out.println("AUTH STATUS:");
-        System.out.println("USER AUTH-ED?:" + authentication.isAuthenticated());
-        System.out.println("ROLES:" + authentication.getAuthorities().toString());
-
         model.addAttribute("librarian", isLibrarian);
         model.addAttribute("categories", bookService.getAllBookCategories());
         return "book/booksPage";
@@ -52,14 +48,6 @@ public class BookController {
     public String displayEmptyBookForm(Model model,
                                        @RequestParam(value = "bookId", required = false) Optional<Long> bookId) {
         List<BookCategory> bookCategories = bookService.getAllBookCategories();
-
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        boolean isLibrarian = authentication.getAuthorities().stream()
-                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("LIBRARIAN"));
-        System.out.println("AUTH STATUS:");
-        System.out.println("USER AUTH-ED?:" + authentication.isAuthenticated());
-        System.out.println("ROLES:" + authentication.getAuthorities().toString());
-
         if (bookId.isPresent()) {
             Long id = bookId.get();
             Book book = bookService.getBookById(id);
@@ -102,7 +90,7 @@ public class BookController {
             bookService.insertBook(book, bookCategoryId.get());
         } else {
             Book existingBook = bookService.getBookById(book.getId());
-            existingBook.setName(book.getName());
+            existingBook.setTitle(book.getTitle());
             existingBook.setAuthor(book.getAuthor());
             existingBook.setDescription(book.getDescription());
             existingBook.setBookCategory(bookService.getBookCategoryById(bookCategoryId.get()));
