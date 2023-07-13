@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Library</title>
-    <link rel="stylesheet" th:href="@{/styles/book/books.css}" />
+    <link rel="stylesheet" th:href="@{/styles/book/books.css}"/>
 </head>
 
 <body>
@@ -22,7 +22,8 @@
                 <label for="category-options"></label>
                 <select id="category-options" name="category">
                     <option value="">All</option>
-                    <option th:each="category : ${categories}" th:value="${category.id}" th:text="${category.name}"></option>
+                    <option th:each="category : ${categories}" th:value="${category.id}"
+                            th:text="${category.name}"></option>
                 </select>
             </div>
             <button type="submit">Search</button>
@@ -56,19 +57,20 @@
                 }
             }
         }
-        window.onload = function() {
+
+        window.onload = function () {
             var bookTitleInput = document.getElementById("book-title-input");
             var authorNameInput = document.getElementById("author-name-input");
             var addBookButton = document.getElementById("add-book-button");
             addBookButton.style.display = "none";
-            bookTitleInput.addEventListener("input", function() {
+            bookTitleInput.addEventListener("input", function () {
                 if (bookTitleInput.value) {
                     bookTitleInput.classList.add("has-value");
                 } else {
                     bookTitleInput.classList.remove("has-value");
                 }
             });
-            authorNameInput.addEventListener("input", function() {
+            authorNameInput.addEventListener("input", function () {
                 if (authorNameInput.value) {
                     authorNameInput.classList.add("has-value");
                 } else {
@@ -78,11 +80,13 @@
         }
 
 
-        function confirmDelete(bookId) {
-            if (confirm("Are you sure you want to delete this book?")) {
-                window.location.href = "/book/deleteBook?bookId=" + bookId;
+        function confirmDelete() {
+            event.preventDefault();
+            if (confirm('Are you sure you want to delete this room?')) {
+                event.target.closest('form').submit();
             }
         }
+
 
     </script>
 </div>
@@ -98,8 +102,15 @@
                     <p th:text="${book.description}">Description</p>
                     <p th:text="${book.bookCategory.getName()}">Category</p>
                     <div class="button-container" th:if="${librarian}">
-                        <a th:href="@{/books/bookForm(bookId=${book.id})}"><button class="edit-button">Edit</button></a>
-                        <button class="delete-button" type="submit" onclick="confirmDelete(${book.id})">Delete</button>
+                        <a th:href="@{/books/bookForm(bookId=${book.id})}">
+                            <button class="edit-button">Edit</button>
+                        </a>
+                        <a>
+                            <form th:action="@{/books/deleteBook}" th:object="${book}" method="post">
+                                <input type="hidden" name="id" th:value="${book.id}">
+                                <button class="delete-button" type="submit" onclick="confirmDelete()">Delete</button>
+                            </form>
+                        </a>
                     </div>
                 </div>
             </div>

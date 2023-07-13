@@ -25,8 +25,8 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(authorize -> authorize
                 .requestMatchers("/images/**", "/styles/**", "/misc/**").permitAll()
-                .requestMatchers("/books", "", "/error", "/").permitAll()
-                .requestMatchers("/books/add", "/books/delete", "/books/bookForm").hasAuthority("LIBRARIAN")
+                .requestMatchers("/books", "/error", "/").permitAll()
+                .requestMatchers("/books/add", "/books/deleteBook**", "/books/bookForm").hasAuthority("LIBRARIAN")
                 .requestMatchers("/registration", "/registerNewUser").permitAll()
                 .anyRequest().authenticated()
         );

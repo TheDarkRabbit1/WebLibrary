@@ -2,8 +2,10 @@ package com.example.weblibrary.data.book;
 
 import com.example.weblibrary.data.book.bookcategory.BookCategory;
 import com.example.weblibrary.exceptions.EntityNotFoundException;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -35,7 +37,6 @@ public class BookController {
                     categoryId.orElse(null)
             ));
         }
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         boolean isLibrarian = authentication.getAuthorities().stream()
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("LIBRARIAN"));
@@ -100,8 +101,8 @@ public class BookController {
     }
 
     @PostMapping("/deleteBook")
-    public String deleteBook(@RequestParam("bookId") Long bookId) {
-        bookService.deleteBookById(bookId);
+    public String deleteBook(@ModelAttribute("book") Book book) {
+        bookService.deleteBookById(book.getId());
         return "redirect:/books";
     }
 }
