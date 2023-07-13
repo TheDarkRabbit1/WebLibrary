@@ -109,7 +109,7 @@ public class BookServiceTests {
     public void testInsertBookCategory() {
         BookCategory bookCategory = new BookCategory();
         bookCategory.setName("Test Category");
-        when(bookCategoryDao.insertBook(bookCategory)).thenReturn(1L);
+        when(bookCategoryDao.insertBookCategory(bookCategory)).thenReturn(1L);
         Long id = bookService.insertBookCategory(bookCategory);
         assertEquals(1L, id);
     }
@@ -126,7 +126,7 @@ public class BookServiceTests {
     public void testInsertBookCategoryFailed() {
         BookCategory bookCategory = new BookCategory();
         bookCategory.setName("Test Category");
-        when(bookCategoryDao.insertBook(bookCategory)).thenReturn(0L);
+        when(bookCategoryDao.insertBookCategory(bookCategory)).thenReturn(0L);
         assertThrows(InsertionException.class, () -> bookService.insertBookCategory(bookCategory));
     }
 

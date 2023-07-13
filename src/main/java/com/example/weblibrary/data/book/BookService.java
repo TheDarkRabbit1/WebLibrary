@@ -57,7 +57,7 @@ public class BookService {
                 .ifPresent(bc -> {
                     throw new InsertionException("Category with this name already exists");
                 });
-        Long id = bookCategoryDao.insertBook(bookCategory);
+        Long id = bookCategoryDao.insertBookCategory(bookCategory);
         if (id <= 0)
             throw new InsertionException("failed to insert book category");
         return id;

@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -42,8 +40,8 @@ public class BookController {
         boolean isLibrarian = authentication.getAuthorities().stream()
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("LIBRARIAN"));
         System.out.println("AUTH STATUS:");
-        System.out.println("USER AUTH-ED?:"+authentication.isAuthenticated());
-        System.out.println("ROLES:"+authentication.getAuthorities().toString());
+        System.out.println("USER AUTH-ED?:" + authentication.isAuthenticated());
+        System.out.println("ROLES:" + authentication.getAuthorities().toString());
 
         model.addAttribute("librarian", isLibrarian);
         model.addAttribute("categories", bookService.getAllBookCategories());
@@ -59,8 +57,8 @@ public class BookController {
         boolean isLibrarian = authentication.getAuthorities().stream()
                 .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("LIBRARIAN"));
         System.out.println("AUTH STATUS:");
-        System.out.println("USER AUTH-ED?:"+authentication.isAuthenticated());
-        System.out.println("ROLES:"+authentication.getAuthorities().toString());
+        System.out.println("USER AUTH-ED?:" + authentication.isAuthenticated());
+        System.out.println("ROLES:" + authentication.getAuthorities().toString());
 
         if (bookId.isPresent()) {
             Long id = bookId.get();
@@ -88,7 +86,7 @@ public class BookController {
             bookCategories.remove(book.getBookCategory());
             bookCategories.add(0, book.getBookCategory());
             bookCategories.removeIf(Objects::isNull);
-            model.addAttribute("book",book);
+            model.addAttribute("book", book);
             model.addAttribute("categories", bookCategories);
             return "book/bookForm";
         }

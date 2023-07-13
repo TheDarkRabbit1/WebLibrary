@@ -8,7 +8,7 @@ public interface BookCategoryDao {
     Optional<BookCategory> findBookCategoryById(Long id);
     Optional<BookCategory> findBookCategoryByName(String name);
 
-    Long insertBook(BookCategory bookCategory);
+    Long insertBookCategory(BookCategory bookCategory);
     void deleteBookById(Long id);
     void deleteAllBooks();
 }
